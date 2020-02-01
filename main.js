@@ -2,12 +2,13 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const cors = require("cors");
+require('dotenv').config();
 
 app.use(express.json());
 
 app.use(cors());
 
-const url = "mongodb://mongo/questmark";
+const url = process.env.MONGO_URL;
 mongoose.connect(url, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
 	.then(() => {
 		console.log('Conectado com sucesso ao banco de dados.');
@@ -16,5 +17,5 @@ mongoose.connect(url, { useNewUrlParser: true, useCreateIndex: true, useUnifiedT
 	});
 
 app.use('/',require("./src/routes"));
-
-app.listen(3000);
+const port = process.env.PORT || 3001;
+app.listen(port);
